@@ -5,11 +5,11 @@ import Button from 'react-bootstrap/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import { add, remove } from '../store/cartSlice';
 import { getProducts } from '../store/productSlice';
-
+import Spinner from 'react-bootstrap/Spinner';
 const Product = () => {
   const dispatch = useDispatch();
   const cartProducts = useSelector((state) => state.cart);
-  const { data: products } = useSelector((state) => state.products);
+  const { data: products, status } = useSelector((state) => state.products);
   useEffect(() => {
     //dispatch a function to get all products
     dispatch(getProducts());
@@ -18,7 +18,13 @@ const Product = () => {
       .then((data) => data.json())
       .then((result) => setProduct(result)); */
   }, []);
+  if (status === 'Loading ...') {
+    return <Spinner animation='grow' />;
+  }
 
+  if (status === 'error') {
+    return <p>Something went wrong!</p>;
+  }
   const addToCart = (product) => {
     // dispatch add function
     dispatch(add(product));
