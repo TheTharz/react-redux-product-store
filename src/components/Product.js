@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { add, remove } from '../store/cartSlice';
 import { getProducts } from '../store/productSlice';
 import Spinner from 'react-bootstrap/Spinner';
+import Alert from 'react-bootstrap/Alert';
+
 const Product = () => {
   const dispatch = useDispatch();
   const cartProducts = useSelector((state) => state.cart);
@@ -23,7 +25,11 @@ const Product = () => {
   }
 
   if (status === 'error') {
-    return <p>Something went wrong!</p>;
+    return (
+      <Alert variant='danger'>
+        <Alert.Heading>Something went wrong here!</Alert.Heading>
+      </Alert>
+    );
   }
   const addToCart = (product) => {
     // dispatch add function
